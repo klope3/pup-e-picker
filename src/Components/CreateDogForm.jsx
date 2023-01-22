@@ -1,8 +1,21 @@
 import { useState } from "react";
 import { dogPictures } from "../assets/dog-pictures";
 
+const defaultData = {
+  image: dogPictures.BlueHeeler,
+  isFavorite: false,
+};
+
 export const CreateDogForm = ({ addDog }) => {
-  const [selectedImage, setSelectedImage] = useState(dogPictures.BlueHeeler);
+  const [dog, setDog] = useState(defaultData);
+
+  function changeDogInfo(event) {
+    const { name: sender, value } = event.target;
+    setDog((prevState) => ({
+      ...prevState,
+      [sender]: value,
+    }));
+  }
 
   return (
     <form
@@ -10,22 +23,36 @@ export const CreateDogForm = ({ addDog }) => {
       id="create-dog-form"
       onSubmit={(e) => {
         e.preventDefault();
+        setDog(defaultData);
+        addDog(dog);
       }}
     >
       <h4>Create a New Dog</h4>
       <label htmlFor="name">Dog Name</label>
-      <input type="text" />
+      <input
+        name="name"
+        type="text"
+        value={dog.name || ""}
+        onChange={changeDogInfo}
+      />
       <label htmlFor="description">Dog Description</label>
-      <textarea name="" id="" cols="80" rows="10"></textarea>
+      <textarea
+        name="description"
+        id="description"
+        cols="80"
+        rows="10"
+        value={dog.description || ""}
+        onChange={changeDogInfo}
+      ></textarea>
       <label htmlFor="picture">Select an Image</label>
       <select
-        id=""
-        onChange={(e) => {
-          setSelectedImage(e.target.value);
-        }}
+        name="image"
+        id="picture"
+        value={dog.image}
+        onChange={changeDogInfo}
       >
-        {Object.entries(dogPictures).map(([label, pictureValue]) => {
-          return <option value={pictureValue}>{label}</option>;
+        {Object.entries(dogPictures).map(([label, pictureValue], index) => {
+          return <option key={index} value={pictureValue}>{label}</option>;
         })}
       </select>
       <input type="submit" value="submit" />

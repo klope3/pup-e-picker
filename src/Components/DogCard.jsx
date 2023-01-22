@@ -1,21 +1,22 @@
-import { useState } from "react";
 import { FavoriteButton } from "./FavoriteButton";
 import { TrashButton } from "./TrashButton";
 import { UnfavoriteButton } from "./UnfavoriteButton";
 export const DogCard = ({
   dog: { name, image, description, id, isFavorite },
+  toggleDogFavorited, 
+  deleteDog,
 }) => {
   return (
     <div className="dog-card">
       {/* Choose which button to show depending on if dog is a favorite */}
       {isFavorite ? (
-        <UnfavoriteButton onClick={() => {}} />
+        <UnfavoriteButton onClick={() => toggleDogFavorited(id)} />
       ) : (
-        <FavoriteButton onClick={() => {}} />
+        <FavoriteButton onClick={() => toggleDogFavorited(id)} />
       )}
 
       {/* Use this button to delete a puppy :( */}
-      <TrashButton disabled={true} onClick={() => {}} />
+      <TrashButton onClick={() => deleteDog(id)} />
 
       {/* Ignore this  */}
       {/* You can temporarily set a favorite overlay after a user favoritest a dog */}
